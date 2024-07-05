@@ -113,45 +113,53 @@ export default function App() {
                   />
                 </View>
                 <View style={styles.inputWrapper}>
-                  <Text style={styles.heading}>Include Lowercase</Text>
-                  <BouncyCheckbox
-                    disbleBuiltInState
-                    isChecked={lowerCase}
-                    onPress={() => setlowerCase(!lowerCase)}
-                    fillColor="#29AB87"
-                  />
+                  <View style={styles.textCheckboxWrapper}>
+                    <Text style={styles.heading}>Include Lowercase</Text>
+                    <BouncyCheckbox
+                      disableBuiltInState
+                      isChecked={lowerCase}
+                      onPress={() => setlowerCase(!lowerCase)}
+                      fillColor="#29AB87"
+                    />
+                  </View>
                 </View>
 
                 <View style={styles.inputWrapper}>
-                  <Text style={styles.heading}>Include Uppercase letters</Text>
-                  <BouncyCheckbox
-                    disableBuiltInState
-                    isChecked={upperCase}
-                    onPress={() => setupperCase(!upperCase)}
-                    fillColor="#FED85D"
-                  />
+                  <View style={styles.textCheckboxWrapper}>
+                    <Text style={styles.heading}>
+                      Include Uppercase letters
+                    </Text>
+                    <BouncyCheckbox
+                      disableBuiltInState
+                      isChecked={upperCase}
+                      onPress={() => setupperCase(!upperCase)}
+                      fillColor="#FED85D"
+                    />
+                  </View>
                 </View>
 
-
                 <View style={styles.inputWrapper}>
-                  <Text style={styles.heading}>Include Numbers</Text>
-                  <BouncyCheckbox
-                    disableBuiltInState 
-                    isChecked={numbers}
-                    onPress={() => setnumbers(!numbers)}
-                    fillColor="#C9A0DC"
-                  />
+                  <View style={styles.textCheckboxWrapper}>
+                    <Text style={styles.heading}>Include Numbers</Text>
+                    <BouncyCheckbox
+                      disableBuiltInState
+                      isChecked={numbers}
+                      onPress={() => setnumbers(!numbers)}
+                      fillColor="#C9A0DC"
+                    />
+                  </View>
                 </View>
 
-
                 <View style={styles.inputWrapper}>
-                  <Text style={styles.heading}>Include Symbols</Text>
-                  <BouncyCheckbox
-                    disableBuiltInState
-                    isChecked={symbols}
-                    onPress={() => setsymbols(!symbols)}
-                    fillColor="#FC80A5"
-                  />
+                  <View style={styles.textCheckboxWrapper}>
+                    <Text style={styles.heading}>Include Symbols</Text>
+                    <BouncyCheckbox
+                      disableBuiltInState
+                      isChecked={symbols}
+                      onPress={() => setsymbols(!symbols)}
+                      fillColor="#FC80A5"
+                    />
+                  </View>
                 </View>
 
                 <View style={styles.inputWrapper}></View>
@@ -159,17 +167,36 @@ export default function App() {
                 <View style={styles.inputWrapper}></View>
 
                 <View style={styles.formActions}>
-                  <TouchableOpacity>
-                    <Text>Generate Password</Text>
+                  <TouchableOpacity
+                    disabled={!isValid}
+                    style={styles.primaryBtn}
+                    onPress={handleSubmit}>
+                    <Text style={styles.primaryBtnTxt}>Generate Password</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity>
-                    <Text>Reset</Text>
+
+                  <TouchableOpacity
+                    style={styles.secondaryBtn}
+                    onPress={() => {
+                      handleReset();
+                      resetPasswordState();
+                    }}>
+                    <Text style={styles.secondaryBtnTxt}>Reset</Text>
                   </TouchableOpacity>
                 </View>
               </>
             )}
           </Formik>
         </View>
+
+        {isPassGenerated ? (
+          <View style={[styles.card, styles.cardElevated]}>
+            <Text style={styles.subTitle}>Result: </Text>
+            <Text style={styles.description}>Long Press to Copy</Text>
+            <Text selectable={true} style={styles.generatedPassword}>
+              {password}
+            </Text>
+          </View>
+        ) : null}
       </SafeAreaView>
     </ScrollView>
   );
@@ -199,6 +226,7 @@ const styles = StyleSheet.create({
   },
   heading: {
     fontSize: 15,
+    marginRight: 10,
   },
   inputWrapper: {
     marginBottom: 15,
@@ -266,6 +294,11 @@ const styles = StyleSheet.create({
     fontSize: 22,
     textAlign: 'center',
     marginBottom: 12,
-    color:'#000'
+    color: '#000',
+  },
+  textCheckboxWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
 });
